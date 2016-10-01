@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.example.somya.quiz.QuizActivity">
+
+    <TextView
+        android:text="Number2"
+        android:id="@+id/input1"
+        android:layout_height="@dimen/textview_height"
+        android:layout_width="30dp"
+        android:textSize="@dimen/font_size"
+        android:layout_alignTop="@+id/sign"
+        android:layout_centerHorizontal="true" />/>
+
+    <TextView
+        android:text="Number1"
+        android:id="@+id/input2"
+        android:layout_height="@dimen/textview_height"
+        android:layout_width="30dp"
+        android:textSize="@dimen/font_size"
+        android:layout_above="@+id/gridLayout"
+        android:layout_marginBottom="70dp" /><![CDATA[s/>
+
+    ]]>
+
+    <TextView
+        android:layout_width="30dp"
+        android:layout_height="@dimen/textview_height"
+        android:id="@+id/sign"
+        android:textSize="@dimen/font_size"
+        android:layout_alignTop="@+id/input2"
+        android:layout_toLeftOf="@+id/input1"
+        android:layout_toStartOf="@+id/input1" />
+
+    <TextView
+        android:layout_width="30dp"
+        android:layout_height="@dimen/textview_height"
+        android:textSize="@dimen/font_size"
+        android:text="="
+        android:id="@+id/equal"
+        android:layout_alignTop="@+id/input1"
+        android:layout_toRightOf="@+id/input1"
+        android:layout_toEndOf="@+id/input1" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/answer"
+        android:layout_alignBottom="@+id/input1"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginRight="35dp"
+        android:layout_marginEnd="35dp" />
+
+    <GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:columnCount="3"
+        android:orientation="horizontal"
+        android:layout_marginBottom="33dp"
+        android:id="@+id/gridLayout"
+        android:layout_alignParentBottom="true"
+        android:layout_toRightOf="@+id/input2"
+        android:layout_toEndOf="@+id/input2">
+
+        <Button android:text="1"
+            android:id="@+id/one"
+            android:tag="1"
+            android:onClick="inputAnswer"
+            />
+
+        <Button android:text="2"
+            android:id="@+id/two"
+            android:tag="2"
+            android:onClick="inputAnswer" />
+
+        <Button android:text="3"
+            android:id="@+id/three"
+            android:tag="3"
+            android:onClick="inputAnswer" />
+
+        <Button android:text="4"
+            android:id="@+id/four"
+            android:tag="4"
+            android:onClick="inputAnswer" />
+
+        <Button android:text="5"
+            android:id="@+id/five"
+            android:tag="5"
+            android:onClick="inputAnswer" />
+
+        <Button android:text="6"
+            android:id="@+id/six"
+            android:tag="6"
+            android:onClick="inputAnswer" />
+
+        <Button android:text="7"
+            android:id="@+id/seven"
+            android:tag="7"
+            android:onClick="inputAnswer" />
+
+        <Button android:text="8"
+            android:id="@+id/eight"
+            android:tag="8"
+            android:onClick="inputAnswer" />
+
+        <Button android:text="9"
+            android:id="@+id/nine"
+            android:tag="9"
+            android:onClick="inputAnswer" />
+
+        <Button android:text="0"
+            android:id="@+id/zero"
+            android:tag="0"
+            android:onClick="inputAnswer" />
+
+        <Button
+            android:layout_columnSpan="2"
+            android:layout_gravity="fill"
+            android:text="Enter"
+            android:id="@+id/enter"
+            android:tag="enter"
+            android:onClick="moveNext"/>
+
+    </GridLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_toStartOf="@+id/input1"
+        android:weightSum="1"
+        android:layout_toLeftOf="@+id/input1"
+        android:id="@+id/linearLayout">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Question#"
+            android:id="@+id/quesLabel"
+            android:layout_marginTop="10dp"
+            android:layout_gravity="center"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/quesNumber"
+            android:layout_weight="0.41"
+            android:layout_gravity="center" />
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Seconds Left:"
+        android:id="@+id/timerLabel"
+        android:layout_gravity="end"
+        android:layout_alignBottom="@+id/linearLayout"
+        android:layout_toRightOf="@+id/equal"
+        android:layout_toEndOf="@+id/equal" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/timer"
+        android:layout_marginTop="10dp"/>
+
+</RelativeLayout>

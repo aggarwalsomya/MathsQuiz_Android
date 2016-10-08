@@ -6,4 +6,5 @@
     <dimen name="textview_width">150dp</dimen>
     <dimen name="ball_radius">30dp</dimen>
     <dimen name="font_size">32sp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
 </resources>

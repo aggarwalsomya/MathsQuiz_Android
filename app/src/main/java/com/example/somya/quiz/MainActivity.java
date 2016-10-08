@@ -12,6 +12,7 @@ import android.widget.Spinner;
 public class MainActivity extends AppCompatActivity {
 
     Button startquiz;
+    Button quitQuiz;
     Spinner dropdown;
     public static int opertype = 0;
 
@@ -22,6 +23,8 @@ public class MainActivity extends AppCompatActivity {
 
         startquiz = (Button) findViewById(R.id.startquiz);
         dropdown = (Spinner)findViewById(R.id.options);
+        quitQuiz = (Button) findViewById(R.id.quitQuiz);
+
         String[] items = new String[]{"Addition", "Subtraction", "Multiplication"};
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, items);
         dropdown.setAdapter(adapter);
@@ -33,6 +36,13 @@ public class MainActivity extends AppCompatActivity {
                 opertype = getOperationType(dropdown.getSelectedItem().toString());
                 Intent in = new Intent(getApplicationContext(), QuizActivity.class);
                 startActivity(in);
+            }
+        });
+
+        quitQuiz.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                System.exit(0);
             }
         });
     }

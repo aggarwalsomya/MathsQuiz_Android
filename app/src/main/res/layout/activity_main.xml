@@ -40,4 +40,14 @@
         android:layout_alignLeft="@+id/textView"
         android:layout_alignStart="@+id/textView"
         android:layout_marginTop="44dp" />
+
+    <Button
+        android:text="QUIT"
+        android:id="@+id/quitQuiz"
+        android:layout_height="60dp"
+        android:layout_width="250dp"
+        android:textSize="@dimen/font_size"
+        android:layout_alignParentBottom="true"
+        android:layout_alignLeft="@+id/startquiz"
+        android:layout_alignStart="@+id/startquiz" />
 </RelativeLayout>

@@ -9,6 +9,13 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.somya.quiz.QuizActivity">
 
+    <fragment android:name="com.example.somya.quiz.NumberPadFragment"
+        android:id="@+id/numberpad_fragment"
+        android:layout_weight="2"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        tools:layout="@layout/fragment_number_pad" />
+
     <TextView
         android:text="Number2"
         android:id="@+id/input1"
@@ -24,8 +31,12 @@
         android:layout_height="@dimen/textview_height"
         android:layout_width="30dp"
         android:textSize="@dimen/font_size"
+        android:layout_marginBottom="72dp"
         android:layout_above="@+id/gridLayout"
-        android:layout_marginBottom="70dp" /><![CDATA[s/>
+        android:layout_toLeftOf="@+id/sign"
+        android:layout_toStartOf="@+id/sign"
+        android:layout_marginRight="34dp"
+        android:layout_marginEnd="34dp" /><![CDATA[s/>
 
     ]]>
 
@@ -64,11 +75,11 @@
         android:layout_gravity="center"
         android:columnCount="3"
         android:orientation="horizontal"
-        android:layout_marginBottom="33dp"
+        android:layout_marginBottom="34dp"
         android:id="@+id/gridLayout"
         android:layout_alignParentBottom="true"
-        android:layout_toRightOf="@+id/input2"
-        android:layout_toEndOf="@+id/input2">
+        android:layout_alignLeft="@+id/input2"
+        android:layout_alignStart="@+id/input2">
 
         <Button android:text="1"
             android:id="@+id/one"
@@ -164,13 +175,18 @@
         android:id="@+id/timerLabel"
         android:layout_gravity="end"
         android:layout_alignBottom="@+id/linearLayout"
-        android:layout_toRightOf="@+id/equal"
-        android:layout_toEndOf="@+id/equal" />
+        android:layout_toLeftOf="@+id/answer"
+        android:layout_toStartOf="@+id/answer" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/timer"
-        android:layout_marginTop="10dp"/>
+        android:layout_alignBottom="@+id/timerLabel"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignTop="@+id/timerLabel"
+        android:layout_toRightOf="@+id/timerLabel"
+        android:layout_toEndOf="@+id/timerLabel" />
 
 </RelativeLayout>

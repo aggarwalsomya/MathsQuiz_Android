@@ -2,16 +2,22 @@ package com.example.somya.quiz;
 
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.CountDownTimer;
 import android.os.Handler;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -40,8 +46,12 @@ public class QuizActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_quiz);
 
         init();
+
+        //adding the action bar for ancestral navigation
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         displayQuestion();
 
@@ -59,8 +69,7 @@ public class QuizActivity extends AppCompatActivity {
                     displayToastNotification("Correct!");
                     score++;
                     if(quesCount >= 10) {
-                        Intent in = new Intent(getApplicationContext(), ScoreActivity.class);
-                        startActivity(in);
+                        showDialogForScore();
                     } else {
                         displayQuestion();
                     }
@@ -71,14 +80,57 @@ public class QuizActivity extends AppCompatActivity {
                                           int count, int after) {
             }
         });
+
+
+    }
+
+    //overriding the method to add the action bar for ancestral navigation
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            // Respond to the action bar's Up/Home button
+            case android.R.id.home:
+
+                counter.cancel();
+
+                //whenever the home is pressed , an alert is displayed
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(QuizActivity.this);
+                alertDialogBuilder.setMessage("Exit Quiz?");
+                alertDialogBuilder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        score = 0;
+                        quesCount = 0;
+                        counter.cancel();
+                        Intent intent = new Intent(QuizActivity.this, MainActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        startActivity(intent);
+                        finish();
+                    }
+                });
+                alertDialogBuilder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        counter.start();
+                    }
+                });
+
+                AlertDialog alertDialog = alertDialogBuilder.create();
+                alertDialog.setCancelable(false);
+                alertDialog.setCanceledOnTouchOutside(false);
+                lockBackgroundForAlertDialog(alertDialog);
+                alertDialog.show();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     /**
      * This function will initialise all the widgets in the layout
      */
     private void init() {
-        setContentView(R.layout.activity_quiz);
-
         input1 = (TextView) findViewById(R.id.input1);
         input2 = (TextView) findViewById(R.id.input2);
         sign = (TextView) findViewById(R.id.sign);
@@ -93,13 +145,12 @@ public class QuizActivity extends AppCompatActivity {
     /**
      * function to move to the next screen - score or next question
      */
-    public void moveNext() {
+    public void moveNext(View v) {
         counter.cancel();
         readAnswerAndUpdateScore();
         quesCount++;
         if(quesCount >= 10) {
-            Intent in = new Intent(getApplicationContext(), ScoreActivity.class);
-            startActivity(in);
+            showDialogForScore();
         } else {
             displayQuestion();
         }
@@ -164,7 +215,7 @@ public class QuizActivity extends AppCompatActivity {
 
         @Override
         public void onFinish() {
-            moveNext();
+            moveNext(getCurrentFocus());
         }
     }
 
@@ -210,7 +261,7 @@ public class QuizActivity extends AppCompatActivity {
                 expectedOutput = val1 + val2;
                 break;
             case 1:
-                expectedOutput = val1 - val2;
+                expectedOutput = Math.abs(val1 - val2);
                 break;
             case 2:
                 expectedOutput = val1 * val2;
@@ -220,6 +271,89 @@ public class QuizActivity extends AppCompatActivity {
         return (answer == expectedOutput);
     }
 
+    public void showDialogForScore() {
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(QuizActivity.this);
+        alertDialogBuilder.setMessage("Points Scored: " + score + "\n" + "Play Again?");
+        alertDialogBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                QuizActivity.score = 0;
+                QuizActivity.quesCount = 0;
+                Intent intent = new Intent(QuizActivity.this, MainActivity.class);
+                startActivity(intent);
+            }
+        });
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.setCancelable(false);
+        alertDialog.setCanceledOnTouchOutside(false);
+        lockBackgroundForAlertDialog(alertDialog);
+        alertDialog.show();
+    }
 
+    //Lock background on score dialog
+    private void lockBackgroundForAlertDialog(AlertDialog alertDialog) {
+        Window window = alertDialog.getWindow();
+        window.setFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
+                WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL);
+        window.clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+    }
 
+    @Override
+    public void onBackPressed() {
+        counter.cancel();
+
+        //whenever the home is pressed , an alert is displayed
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(QuizActivity.this);
+        alertDialogBuilder.setMessage("Exit Quiz?");
+        alertDialogBuilder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                score = 0;
+                quesCount = 0;
+                counter.cancel();
+                Intent intent = new Intent(QuizActivity.this, MainActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                finish();
+            }
+        });
+        alertDialogBuilder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                counter.start();
+            }
+        });
+
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.setCancelable(false);
+        alertDialog.setCanceledOnTouchOutside(false);
+        lockBackgroundForAlertDialog(alertDialog);
+        alertDialog.show();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        counter.cancel();
+
+        Log.v("On Pause","ON Pause has been called for this activity");
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        counter.cancel();
+
+        Log.v("On Stop", "On stop has been called for this activity");
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        Log.v("On resume", "On resume has been called for this activity");
+        counter.start();
+    }
 }
